@@ -1,0 +1,14 @@
+gpustat
+kaldi-io
+matplotlib
+numpy
+python-speech-features
+scikit-learn
+scipy
+sklearn
+SoundFile
+speechpy
+tensorboardX
+tqdm
+torch
+torchvision
