@@ -1,5 +1,5 @@
 # Gradient Frequency Attention
-My code for 'Gradient Frequency Attention: Tell Neural Networks where speaker information is.'
+This is the code for '**Gradient Frequency Attention: Tell Neural Networks where speaker information is.**'
 
 ### 1.Datasets
 
@@ -15,8 +15,10 @@ training set. There are 5,994 speakers with 1,092,009 utterances.
 
 ##### ResCNN
 
-ResCNN is a CNN with Channel Block Attention Blocks for verification. In our testing, this model proved to outperform many SV systems on Voxceleb1
+ResCNN is a CNN with Channel Block Attention Blocks for verification as Figure.1. In our testing, this model proved to outperform many SV systems on Voxceleb1
 when we input spectrograms into it. Dropout is applied before  the average pooling layer.
+
+![Figure.1](misc/rescnn_drawio.png "Gradient Frequency Attention Framework")
 
 ##### TDNN
 
@@ -24,7 +26,7 @@ TDNN is the neural network meantioned in *x-vectors*.
 
 #### 2.2.Gradient Frequency Attention
 
-![这是图片](misc/attention_drawio.png "Gradient Frequency Attention Framework")
+![Figure.2](misc/attention_drawio.png "Gradient Frequency Attention Framework")
 
 
 #### 2.3.Loss Function
