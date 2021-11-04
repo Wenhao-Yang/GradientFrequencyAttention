@@ -111,8 +111,8 @@ if [ $stage -le 10 ]; then
       --lr 0.1 \
       --mask-layer ${mask_layer} \
       --milestones 10,20,30,40 \
-      --check-path Data/checkpoint/${model}${resnet_size}/${datasets}/${feat_type}_egs_${mask_layer}/${loss}/${input_norm}_${block_type}_${encoder_type}_dp125_alpha${alpha}_em${embedding_size}_${weight}_chn64_wd5e4_var \
-      --resume Data/checkpoint/${model}${resnet_size}/${datasets}/${feat_type}_egs_${mask_layer}/${loss}/${input_norm}_${block_type}_${encoder_type}_dp125_alpha${alpha}_em${embedding_size}_${weight}_chn64_wd5e4_var/checkpoint_50.pth \
+      --check-path Data/checkpoint/${model}${resnet_size}/${datasets}/${feat_type}_egs_${mask_layer}/${loss}/${input_norm}_${block_type}_${encoder_type}_dp25_alpha${alpha}_em${embedding_size}_${weight}_chn64_wd5e4_var \
+      --resume Data/checkpoint/${model}${resnet_size}/${datasets}/${feat_type}_egs_${mask_layer}/${loss}/${input_norm}_${block_type}_${encoder_type}_dp25_alpha${alpha}_em${embedding_size}_${weight}_chn64_wd5e4_var/checkpoint_50.pth \
       --kernel-size ${kernel} \
       --channels 64,128,256 \
       --stride 2 \
@@ -129,7 +129,7 @@ if [ $stage -le 10 ]; then
       --m 3 \
       --loss-ratio 0.01 \
       --weight-decay 0.0005 \
-      --dropout-p 0.125 \
+      --dropout-p 0.25 \
       --gpu-id 0,1 \
       --extract \
       --cos-sim \
