@@ -73,7 +73,7 @@ parser.add_argument('--train-trials', type=str, default='trials', help='path to 
 
 parser.add_argument('--sitw-dir', type=str, help='path to voxceleb1 test dataset')
 parser.add_argument('--var-input', action='store_true', default=True, help='need to make mfb file')
-parser.add_argument('--test-input', type=str, default='fix', choices=['var', 'fix'],
+parser.add_argument('--test-input', type=str, default='var', choices=['var', 'fix'],
                     help='batchnorm with instance norm')
 parser.add_argument('--random-chunk', nargs='+', type=int, default=[], metavar='MINCHUNK')
 parser.add_argument('--chunk-size', type=int, default=300, metavar='CHUNK')
