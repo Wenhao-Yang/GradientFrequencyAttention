@@ -14,7 +14,7 @@ for training and 40 speakers with 4,870 utterances for testing. Only the VoxCele
 
 #### Data Preparation
 
-All the acostic features are prepared in kaldi way. And then we generate kaldi-like egs for training. Here we asume that the kaldi has been installed. The data augmentation is the same as the example voxceleb/v2. The clean utterances are augmented by MUSAN and RIR datasets. But we keep all the augmented utterances for sampling.
+All the acoustic features are prepared in kaldi way. And then we generate kaldi-like egs for training. Here we asume that the kaldi has been installed. The data augmentation is the same as the example voxceleb/v2 in kaldi. The clean utterances are augmented by MUSAN and RIR datasets. But we keep all the augmented utterances for sampling.
 
 ```shell
     # Making 161 dimensional spectrograms for dev and test set.
