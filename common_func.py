@@ -59,7 +59,7 @@ def create_optimizer(parameters, optimizer, **kwargs):
 
 __factory = {
     'ResCNN': ResCNN,
-    'TDNN_v5': TDNN,
+    'TDNN': TDNN,
 }
 
 def create_model(name, **kwargs):

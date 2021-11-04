@@ -12,10 +12,79 @@
 import numpy as np
 import torch
 import random
-
+import subprocess
+import errno
+import os
+import os.path as osp
+import sys
 
 NUM_FRAMES_SPECT = 300
 NUM_SHIFT_SPECT = 300
+
+
+def mkdir_if_missing(directory):
+    if not osp.exists(directory):
+        try:
+            os.makedirs(directory)
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+
+
+class NewLogger(object):
+    """
+    Write console output to external text file.
+
+    Code imported from https://github.com/Cysu/open-reid/blob/master/reid/utils/logging.py.
+    """
+
+    def __init__(self, fpath=None, mode='a'):
+        self.console = sys.stdout
+        self.file = None
+        if fpath is not None:
+            mkdir_if_missing(os.path.dirname(fpath))
+            self.file = open(fpath, mode)
+
+    def __del__(self):
+        self.close()
+
+    def __enter__(self):
+        pass
+
+    def __exit__(self, *args):
+        self.close()
+
+    def write(self, msg):
+        self.console.write(msg)
+        if self.file is not None:
+            self.file.write(msg)
+
+    def flush(self):
+        self.console.flush()
+        if self.file is not None:
+            self.file.flush()
+            os.fsync(self.file.fileno())
+
+    def close(self):
+        self.console.close()
+        if self.file is not None:
+            self.file.close()
+
+
+def RunCommand(command):
+    """ Runs commands frequently seen in scripts. These are usually a
+        sequence of commands connected by pipes, so we use shell=True """
+    # logger.info("Running the command\n{0}".format(command))
+    if command.endswith('|'):
+        command = command.rstrip('|')
+
+    p = subprocess.Popen(command, shell=True,
+                         stdout=subprocess.PIPE,
+                         stderr=subprocess.PIPE)
+    # p.wait()
+    [stdout, stderr] = p.communicate()
+
+    return p.pid, stdout, stderr
 
 
 class totensor(object):
@@ -85,6 +154,60 @@ class ConcateVarInput(object):
         if self.remove_vad:
             network_inputs = network_inputs[:, :, 1:]
 
+        return network_inputs
+
+
+class ConcateNumInput(object):
+    """Rescales the input PIL.Image to the given 'size'.
+    If 'size' is a 2-element tuple or list in the order of (width, height), it will be the exactly size to scale.
+    If 'size' is a number, it will indicate the size of the smaller edge.
+    For example, if height > width, then image will be
+    rescaled to (size * height / width, size)
+    size: size of the exactly size or the smaller edge
+    interpolation: Default: PIL.Image.BILINEAR
+    """
+
+    def __init__(self, input_per_file=1, num_frames=NUM_FRAMES_SPECT,
+                 feat_type='kaldi', remove_vad=False):
+
+        super(ConcateNumInput, self).__init__()
+        self.input_per_file = input_per_file
+        self.num_frames = num_frames
+        self.remove_vad = remove_vad
+        self.c_axis = 0 if feat_type != 'wav' else 1
+
+    def __call__(self, frames_features):
+        network_inputs = []
+
+        output = frames_features
+        while output.shape[self.c_axis] < self.num_frames:
+            output = np.concatenate((output, frames_features), axis=self.c_axis)
+
+        if len(output) / self.num_frames >= self.input_per_file:
+            for i in range(self.input_per_file):
+                start = i * self.num_frames
+                frames_slice = output[start:start + self.num_frames] if self.c_axis == 0 else output[:,
+                                                                                              start:start + self.num_frames]
+                network_inputs.append(frames_slice)
+        else:
+            for i in range(self.input_per_file):
+                try:
+                    start = np.random.randint(low=0, high=output.shape[self.c_axis] - self.num_frames + 1)
+
+                    frames_slice = output[start:start + self.num_frames] if self.c_axis == 0 else output[:,
+                                                                                                  start:start + self.num_frames]
+                    network_inputs.append(frames_slice)
+                except Exception as e:
+                    print(len(output))
+                    raise e
+
+        # pdb.set_trace()
+        network_inputs = np.array(network_inputs, dtype=np.float32)
+        if self.remove_vad:
+            network_inputs = network_inputs[:, :, 1:]
+
+        if len(network_inputs.shape) > 2:
+            network_inputs = network_inputs.squeeze(0)
         return network_inputs
 
 
