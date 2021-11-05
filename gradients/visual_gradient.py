@@ -246,7 +246,7 @@ def main():
     np.save(args.extract_path + '/train.grad.npy', train_grad) # save the gradient to a npy file
 
     # plt.legend(['Mel-scale', 'Train', 'Valid', 'Test_a', 'Test_b'], loc='upper right', fontsize=18)
-    plt.legend(['Train', 'Valid', 'Train Verify', 'Train Verify Relu', 'Test'], loc='upper right', fontsize=24)
+    plt.legend(['Train', 'Valid', 'Train Verify', 'Test'], loc='upper right', fontsize=24)
     # plt.legend(['Mel-scale', 'Train', 'Valid', 'Train Verify', 'Test'], loc='upper right', fontsize=24)
     pdf.savefig()
     pdf.close()

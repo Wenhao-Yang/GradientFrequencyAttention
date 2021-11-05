@@ -14,7 +14,7 @@ for training and 40 speakers with 4,870 utterances for testing. Only the VoxCele
 
 #### Data Preparation
 
-All the acoustic features are prepared in kaldi way. And then we generate kaldi-like egs for training. Here we asume that the kaldi has been installed. The data augmentation is the same as the example voxceleb/v2 in kaldi. The clean utterances are augmented by MUSAN and RIR datasets. But we keep all the augmented utterances for sampling.
+All the acoustic features are prepared in kaldi way. And then we generate kaldi-like egs for training. Here we asume that the kaldi has been installed. The data augmentation is the same as the example `voxceleb/v2` in kaldi. The clean utterances are augmented by MUSAN and RIR datasets. But we keep all the augmented utterances for sampling.
 
 ```shell
     # Making 161 dimensional spectrograms for dev and test set.
@@ -69,7 +69,9 @@ when we input spectrograms into it. Dropout is applied before  the average pooli
 
 #### 2.3.Loss Function
 
-Arcsoft softmax loss function is adpoted in our experiments, where the margin is 0.2 and scale is 30.
+Additive Angular Margin (Arcsoft) Softmax loss function is adpoted in our experiments, where the margin is 0.2 and scale is 30.
+
+![Figure.3](misc/aam_loss.png "Additive Angular Margin Softmax loss")
 
 
 #### 2.4.Score
@@ -79,7 +81,7 @@ For all the SV systems, embeddings are extracted from the last hidden layer. Cos
 
 ### 4.Training
 
-Set the stage variable in the train.sh script and start training by:
+Set the stage variable in the `train.sh` script and start training by:
 
 ```shell
     ./c_train.sh
