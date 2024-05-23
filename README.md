@@ -56,7 +56,7 @@ All the acoustic features are prepared in kaldi way. And then we generate kaldi-
 [ResCNN](models/ResNets.py) is a CNN with Channel Block Attention Blocks for verification as Figure.1. In our testing, this model proved to outperform many SV systems on VoxCeleb1
 when we input spectrograms into it. Dropout is applied before  the average pooling layer.
 
-![Figure.1](misc/rescnn_drawio.png "Gradient Frequency Attention Framework")
+<!-- ![Figure.1](misc/rescnn_drawio.png "Gradient Frequency Attention Framework") -->
 
 ##### TDNN-based Networks
 
