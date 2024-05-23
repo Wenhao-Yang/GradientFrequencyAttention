@@ -58,10 +58,6 @@ class TimeDelayLayer(nn.Module):
         input: size (batch, seq_len, input_features)
         outpu: size (batch, new_seq_len, output_features)
         '''
-        # _, _, d = x.shape
-        # assert (d == self.input_dim), 'Input dimension was wrong. Expected ({}), got ({})'.format(
-        #     self.input_dim, d)
-
         x = self.kernel(x.transpose(1, 2))
         x = self.nonlinearity(x)
         x = self.bn(x)

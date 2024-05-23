@@ -53,22 +53,14 @@ class CBAM(nn.Module):
         self.cov_f = nn.Conv2d(inplanes, planes, kernel_size=(1, 7), stride=1, padding=(0, 3))
         self.avg_f = nn.AdaptiveAvgPool2d((1, None))
 
-        # if self.pooling == 'both':
-        # self.max_t = nn.AdaptiveMaxPool2d((None, 1))
-        # self.max_f = nn.AdaptiveMaxPool2d((None, 1))
-
     def forward(self, input):
         t_output = self.avg_t(input)
-        # if self.pooling == 'both':
-        #     t_output += self.max_t(input)
 
         t_output = self.cov_t(t_output)
         t_output = self.activation(t_output)
         t_output = input * t_output
 
         f_output = self.avg_f(input)
-        # if self.pooling == 'both':
-        #     f_output += self.max_f(input)
 
         f_output = self.cov_f(f_output)
         f_output = self.activation(f_output)

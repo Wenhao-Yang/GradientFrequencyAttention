@@ -7,7 +7,7 @@ This is the official code for '**Gradient Frequency Attention: Tell Neural Netwo
 By appling the attention mechanism to Convolutional Neural Networks, we prove it to be valid for build a low-cost Speaker Verification (SV) model from a widder or deeper neural network model. 
 
 
-### 1.Datasets
+## 1.Datasets
 
 We select VoxCeleb1 and VoxCeleb2 as the datasets. In VoxCeleb1, there are 1,211 speakers with 148,642 utterances
 for training and 40 speakers with 4,870 utterances for testing. Only the VoxCeleb2 development set is used as a training set. There are 5,994 speakers with 1,092,009 utterances.
@@ -47,20 +47,23 @@ All the acoustic features are prepared in kaldi way. And then we generate kaldi-
 ```
 
 
-### 2.Deep Speaker Verification
+## 2.Deep Speaker Neural Networks
 
 #### 2.1.Neural Networks
 
-##### ResCNN
+##### ResNet-based Networks
 
 [ResCNN](models/ResNets.py) is a CNN with Channel Block Attention Blocks for verification as Figure.1. In our testing, this model proved to outperform many SV systems on VoxCeleb1
 when we input spectrograms into it. Dropout is applied before  the average pooling layer.
 
 ![Figure.1](misc/rescnn_drawio.png "Gradient Frequency Attention Framework")
 
-##### TDNN
+##### TDNN-based Networks
+
 
 [TDNN](models/TDNNs.py) is the neural network meantioned in *x-vectors*.
+
+[ECAPA-TDNN](models/ECAPA-TDNNs.py) is the neural network meantioned in *ECAPA-TDNN*.
 
 #### 2.2.Gradient Frequency Attention
 
@@ -71,7 +74,8 @@ when we input spectrograms into it. Dropout is applied before  the average pooli
 
 Additive Angular Margin (Arcsoft) Softmax loss function is adpoted in our experiments, where the margin is 0.2 and scale is 30.
 
-![Figure.3](misc/aam_loss.png "Additive Angular Margin Softmax loss")
+<div align="center"> <img src="misc/aam_loss.png" width="300" height="70" /> </div>
+<!-- ![Figure.3](misc/aam_loss.png "Additive Angular Margin Softmax loss") -->
 
 
 #### 2.4.Score
@@ -103,9 +107,26 @@ The extracted weights should be stored in .
 
 #### 5.1.Gradient
 
+We extracted Saliency Mappings using **InteGrated Gradients** (IG) method for input Mel Fbanks. We plot the maximum gradients (5%) for ECAPA-TDNN with different Width (Channels) .
 
 
-#### 5.2.Speaker Verification Performance
+
+<div align="center"> <img src="misc/integrad_sample.png" width="50%" /> </div>
+
+
+#### 5.2.Saliency Mappings Comparison
+We carried insertion and deletion experiments to compare the performance of Saliency Mapping Methods. We plot the insertion and deletion results as the following figure.
+
+<div align="center">
+<img src="misc/insert.png" width="35%" />
+<img src="misc/delete.png" width="35%" />
+</div>
+
+Integrated Gradient (IG) and Expected IG is the most effective method in speaker verification for Saliency Mapping.
+
+#### 5.3. Performance
+
+##### Input Attention Refinement
 
 Equal Error Rate and Minimum Detection Cost Function are reported here.
 
